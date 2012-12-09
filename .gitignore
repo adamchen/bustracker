@@ -1,1 +1,5 @@
 bustracker/bustracker/bustracker.sql
+bustracker/bin/
+bustracker/include/
+bustracker/lib/
+bustracker/local/
