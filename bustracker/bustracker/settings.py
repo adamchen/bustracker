@@ -124,6 +124,9 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'geoposition',
+    'south',
+    #...and our ones
+    'timetableData',
 )
 
 # A sample logging configuration. The only tangible logging
