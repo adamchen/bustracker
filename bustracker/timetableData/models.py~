@@ -10,6 +10,7 @@ class BusRoute(models.Model):
 
 class BusStop(models.Model):
 	location = GeopositionField()
+	bearing = models.CharField(max_length=2, default="")
 	name = models.CharField(max_length=250)
 
 class RouteJourney(models.Model):
@@ -29,7 +30,6 @@ class RouteJourney(models.Model):
 
 class RouteStop(models.Model):
 	stop = models.ForeignKey(BusStop, related_name="route_stops")
-	journey = models.ForeignKey(RouteJourney, related_name="route_stops")
 	time = models.TimeField()
 	next_stop = models.OneToOneField('RouteStop', related_name="previous_stop")
 
