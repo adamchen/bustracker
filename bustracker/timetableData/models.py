@@ -1,34 +1,6 @@
 from django.db import models
 from geoposition.fields import GeopositionField
 
-def new_bus_stop(name, bearing, lat, lon):
-	bus_stop = BusStop.objects.create(name=name,bearing=bearing)
-	bus_stop.location.latitude = lat
-	bus_stop.location.longitude = lon
-	bus_stop.save()
-	return bus_stop
-
-def add_journies(route, fileName, weekdays, saturdays, sundays, stops):
-	import csv
-	with open(fileName, "rb") as csvfile:
-		reader = csv.reader(csvfile, delimiter=',', quotechar="\"")
-		for row in reader:
-			journey = RouteJourney.objects.create(weekdays=weekdays,saturdays=saturdays,sunday=sundays,route=route)
-			last_stop = None
-			data = row[0].split("\t")
-			print data
-			for i in range(0,len(data)-1):
-				stop = RouteStop.objects.create(stop=stops[i], time = timeFormat(data[i]))	
-				if (last_stop is not None):
-					last_stop.next_stop = stop
-					last_stop.save()
-				else:
-					journey.first_stop = stop
-					journey.save()
-				last_stop = stop
-def timeFormat(time):
-	return time[:2] + ":" + time[2:]
-
 class Operator(models.Model):
 	name = models.CharField(max_length=250)
 	def __unicode__(self):
