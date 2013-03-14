@@ -16,6 +16,7 @@ def add_journies(route, fileName, weekdays, saturdays, sundays, stops):
 			journey = RouteJourney.objects.create(weekdays=weekdays,saturdays=saturdays,sunday=sundays,route=route)
 			last_stop = None
 			data = row[0].split("\t")
+			print data
 			for i in range(0,len(data)-1):
 				stop = RouteStop.objects.create(stop=stops[i], time = timeFormat(data[i]))	
 				if (last_stop is not None):
