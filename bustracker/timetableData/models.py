@@ -1,5 +1,7 @@
 from django.db import models
 from geoposition.fields import GeopositionField
+import math
+from decimal import *
 
 class Operator(models.Model):
 	name = models.CharField(max_length=250)
@@ -19,6 +21,10 @@ class BusStop(models.Model):
 
 	def __unicode__(self):
 		return u"BusStop {}, bearing: {}, location: {}".format(self.name,self.bearing,self.location)
+	def distance_from(self,lat, lon):
+	#We'll assume that 1 degree lat = 1 degree lon in terms of distance
+	#Not actually true, but good enough for our scale.	
+		return math.sqrt((Decimal(lat)-self.location.latitude)**2 + (Decimal(lon)-self.location.longitude)**2)
 
 class RouteJourney(models.Model):
 	first_stop = models.OneToOneField('RouteStop', related_name="journey",null=True)
@@ -44,7 +50,7 @@ class RouteStop(models.Model):
 	next_stop = models.OneToOneField('RouteStop', related_name="previous_stop", null=True)
 	
 	def __unicode__(self):
-		return u"at stop {} at time {}. Next stop: {}".format(self.stop, self.time, self.next_stop if self.next_stop is not None else "END OF LINE")
+		return u"at stop {} at time {}. {}".format(self.stop, self.time, "NEXT STOP: "+self.next_stop if self.next_stop is not None else "END OF LINE")
 
 	@property
 	def route_journey(self):
