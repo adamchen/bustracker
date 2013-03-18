@@ -10,8 +10,9 @@ def new_bus_stop(name, bearing, lat, lon):
 def bus_stops(fileName):
 	import csv
 	with open(fileName, "rb") as csvfile:
-		reader = csv.reader(csvfile, delimiter=",", quotechar="\"")
+		reader = csv.reader(csvfile, delimiter="\t", quotechar="\"")
 		for row in reader:
+			print row
 			if len(row) == 5:
 				new_bus_stop("{} ({})".format(row[0], row[1]), row[2], row[3], row[4])
 
@@ -29,7 +30,7 @@ def add_journies(route, fileName, weekdays, saturdays, sundays):
 				journey = RouteJourney.objects.create(weekdays=weekdays,saturdays=saturdays,sunday=sundays,route=route)
 				last_stop = None
 				for i in range(0,len(row)):
-					stop = RouteStop.objects.create(stop=stops[i], time = timeFormat(row[i]))	
+					stop = RouteStop.objects.create(stop=stops[i], time = timeFormat(row[i]),journey=journey)	
 					if (last_stop is not None):
 						last_stop.next_stop = stop
 						last_stop.save()

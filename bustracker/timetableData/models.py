@@ -27,7 +27,7 @@ class BusStop(models.Model):
 		return math.sqrt((Decimal(lat)-self.location.latitude)**2 + (Decimal(lon)-self.location.longitude)**2)
 
 class RouteJourney(models.Model):
-	first_stop = models.OneToOneField('RouteStop', related_name="journey",null=True)
+	first_stop = models.OneToOneField('RouteStop',null=True)
 	weekdays = models.BooleanField(default=False)
 	saturdays = models.BooleanField(default=False)
 	sunday = models.BooleanField(default=False)
@@ -35,22 +35,15 @@ class RouteJourney(models.Model):
 	
 	def __unicode__(self):
 		return u"RouteJourney on route {}. Availability: {} {} {}. First Stop: {}".format(self.route, self.weekdays, self.saturdays, self.sunday, self.first_stop)
-	@property
-	def stop(self):
-		stops = []
-		last_stop = first_stop
-		while last_stop is not None:
-			stops.append(last_stop)
-			last_stop = last_stop.next_stop
-		return stops
-
+	
 class RouteStop(models.Model):
 	stop = models.ForeignKey(BusStop, related_name="route_stops")
+	journey = models.ForeignKey(RouteJourney, related_name = "stops", null=True)
 	time = models.TimeField()
 	next_stop = models.OneToOneField('RouteStop', related_name="previous_stop", null=True)
 	
 	def __unicode__(self):
-		return u"at stop {} at time {}. {}".format(self.stop, self.time, "NEXT STOP: "+self.next_stop if self.next_stop is not None else "END OF LINE")
+		return u"at stop {} at time {}.\n{}".format(self.stop, self.time, "NEXT STOP: "+str(self.next_stop) if self.next_stop is not None else "END OF LINE")
 
 	@property
 	def route_journey(self):
