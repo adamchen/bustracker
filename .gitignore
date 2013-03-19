@@ -3,3 +3,10 @@ bustracker/bin/
 bustracker/include/
 bustracker/lib/
 bustracker/local/
+
+*~
+*.swp
+*.so
+
+*.pyc
+
