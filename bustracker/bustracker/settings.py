@@ -1,4 +1,8 @@
 # Django settings for bustracker project.
+import os
+
+
+SETTINGS_PATH = os.path.realpath(os.path.dirname(__file__))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -110,6 +114,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(SETTINGS_PATH, '../templates'),
 )
 
 INSTALLED_APPS = (
@@ -126,6 +131,7 @@ INSTALLED_APPS = (
     'geoposition',
     'south',
     #...and our ones
+    'bustracker',
     'timetableData',
 )
 
