@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+    {{ stops }}
+    <form action="" method="post">
+    {% csrf_token %}
+    {{ bus_stop_form.as_p }}
+    <input type="submit" value="Submit">
+    </form>
+{% endblock content %}

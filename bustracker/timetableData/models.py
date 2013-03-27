@@ -20,7 +20,7 @@ class BusStop(models.Model):
 	name = models.CharField(max_length=250)
 
 	def __unicode__(self):
-		return u"BusStop {}, bearing: {}, location: {}".format(self.name,self.bearing,self.location)
+		return u"BusStop {}: {}, bearing: {}, location: {}".format(self.name,self.pk,self.bearing,self.location)
 	def distance_from(self,lat, lon):
 	#We'll assume that 1 degree lat = 1 degree lon in terms of distance
 	#Not actually true, but good enough for our scale.	

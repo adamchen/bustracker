@@ -2,6 +2,10 @@ from timetableData.models import *
 from django.db.models import Q
 
 def get_from(origins, destination, arrival_time, day, number_of_journies=3):
+	print origins
+	print destination
+	print arrival_time
+	print day
 	journies = RouteJourney.objects.filter(stops__stop__in=origins).filter(stops__stop=destination).filter(weekdays=(day >= 1 and day <= 5), saturdays = (day == 6), sunday = (day == 7))
 	route_stops = RouteStop.objects.filter(stop=destination,journey__in=journies,time__lt=arrival_time).order_by("-time")
 	i = 0
