@@ -14,9 +14,8 @@ def one_journey(request):
 			date = stops_form.cleaned_data['date']
 			time = stops_form.cleaned_data['time']
 			return render(request,"bus_stop_to.html", {"bus_stop_form" : stops_form, "stops" : timetableData.query.get_from([source], destination, time, date.weekday())})
-	else:
-		stops_form = PickStops()
-		return render(request,"bus_stop_to.html", {"bus_stop_form" : stops_form})
+	stops_form = PickStops()
+	return render(request,"bus_stop_to.html", {"bus_stop_form" : stops_form})
 class PickStops(forms.Form):
 	source = forms.ModelChoiceField(queryset=BusStop.objects.all())
 	destination = forms.ModelChoiceField(queryset=BusStop.objects.all())
