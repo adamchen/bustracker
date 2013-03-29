@@ -1,10 +1,14 @@
 {% extends "base.html" %}
 {% block title %}
-
+Single Journey
 {% endblock %}
 
 {% block content %}
+{% if stops %}
+<h2>Query response</h2>
 {% include "bus_stop_display.html" with stops=stops %}
+{% endif %}
+<h2>New Query</h2>
 <form action="" method="post">
     {% csrf_token %}
     {{ bus_stop_form.as_p }}

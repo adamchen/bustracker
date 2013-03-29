@@ -1,7 +1,7 @@
 <!-- journey is passed -->
-        <table width=20% style="display: inline-table;">
+        <table width=30% style="display: inline-table; margin-right: 3%;">
             <tr><td>Stop</td><td>Time</td></tr>
             {% for route_stop in journey.stops.all %}
-                <tr><td>{{ route_stop.stop }}</td><td>{{ route_stop.time }}</td></tr>
+                <tr><td>{{ route_stop.stop.name }}</td><td>{{ route_stop.time|time:"H:i" }}</td></tr>
             {% endfor %}
         </table>
