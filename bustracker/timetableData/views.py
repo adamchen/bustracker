@@ -26,7 +26,7 @@ def get_nearest(request):
 		if nearest_form.is_valid():
 			postcode = nearest_form.cleaned_data['postcode']
 			lat, long = get_lat_long(postcode)
-	return None
+	return render(request, "get_stops_from_postcode.html")
 
 def get_lat_long(postcode):
 	r = requests.get("http://uk-postcodes.com/postcode/{}.json".format(postcode.replace(" ","")))

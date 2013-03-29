@@ -11,3 +11,4 @@ requests==0.11.2
 simplejson==2.5.0
 django-geoposition
 south
+https://github.com/django/django-localflavor-gb/zipball/master
