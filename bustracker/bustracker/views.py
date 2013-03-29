@@ -1,11 +1,12 @@
 from django.views.generic import TemplateView
+from django.shortcuts import render
+
 
 #from timetableData.models import
 
 
-class HomeView(TemplateView):
-    template_name = "home.html"
+def homepage(request):
+	return render(request, "home.html")
 
-    def get(self, request, *args, **kwargs):
-        context = None # compute what you want to pass to the template
-        return self.render_to_response(context)
+def about(request):
+	return render(request, "about.html")

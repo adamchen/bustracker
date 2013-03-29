@@ -1,7 +1,15 @@
-{% extends "../templates/base.html" %}
-<!-- {% load i18n %} -->
-
+{% extends "base.html" %}
+{% block title %} Home {% endblock %}
+{% block sidebar %}
+OH MAN THIS IS TOTALLY THE SIDEBAR
+block sidebar
+{% endblock %}
 {% block content %}
-    <p> This is the home page </p>
+    CONTENT
+    block content
+    <h2>Stuff</h2>
+        <ul>
+            <li><a href="/timetableData/one_journey">One journey query</a></li>
+        </ul>
 {% endblock %}
 

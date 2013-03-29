@@ -1,16 +1,49 @@
-<!DOCTYPE html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>{% block title %}{% endblock %} | "Bath Bus Tracker"</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width">
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css"/>
-    </head>
-    <body>
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>{% block title %}{% endblock %} | Beat the Bus!</title>
+  <meta name="description" content="Beat the Bus, a Bath University based bus helper tool." />
+  <meta name="keywords" content="university, of, bath, bus, tracker, first, wessex, u18, 18, 20a, 20c, u10" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/style.css" />
+  <!-- modernizr enables HTML5 elements and feature detects -->
+  <script type="text/javascript" src="{{STATIC_URL}}js/modernizr-1.5.min.js"></script>
+</head>
 
-        {% block content %}{% endblock content %}
-
-        <script src="{{ STATIC_URL }}js/script.js"></script>
-    </body>
+<body>
+  <div id="main">
+    <header>
+      <div id="logo">
+        <div id="logo_text">
+          <h1><a href="/index.html"><span class="logo_colour">Beat the bus!</span></a></h1>
+          <h2>Never be late again.</h2>
+        </div>
+      </div>
+      <nav>
+        <div id="menu_container">
+          <ul class="sf-menu" id="nav">
+            <li><a href="/index.html">Home</a></li>
+            <li><a href="/about.html">About</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <div id="site_content">
+    <div id="sidebar_container">
+    <div class="sidebar">
+      {% block sidebar %}
+      {% endblock %}
+    </div>
+    </div>
+    <div class="content">
+      {% block content %}
+      {% endblock %}
+     </div>
+     </div>
+    <footer>
+      <p><a href="index.html">Home</a> | <a href="about.html">About</a></p>
+      <p>Double Decker Solutions <br /> HTML and CSS adapted from <a href="http://www.css3templates.co.uk">css3templates.co.uk</a></p>
+    </footer>
+  </div>
+</body>
 </html>

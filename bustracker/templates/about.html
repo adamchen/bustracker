@@ -1,10 +1,58 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}About {%endblock %}
+{% block sidebar %}
+        <h2>What is this?</h2>
+        <p>Everyone knows how frustrating it can be turning round the corner
+            to see the bus you want driving past. Fear no more! This journey planner can stop
+            this from happening and tell you what time you will need to leave to get where you
+            are going in time!</a></p>
+{% endblock %}
+{% block content %}
+<div class="content">
+    <form name="input" action="" method="get">
+        <table>
+            <tr>
+                <td class="right-align"> Preferred service: </td>
+                <td class="left-align">
+                    <select name="route">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="18">18</option>
+                        <option value="u18">U18</option>
+                        <option value="x18">X18</option>
+                        <option value="u10">U10</option>
+                        <option value="20a">20A</option>
+                        <option value="20c">20C</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="right-align">Where from?</td>
+                <td class="left-align">
+                    <select name="start">
+                    </select> <a href='#'>Find me!</a>
+                </td>
+            </tr>
+            <tr>
+                <td class="right-align">Where to? </td>
+                <td class="left-align">
+                    <select name="end">
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="right-align">Date and time of arrival? </td>
+                <td class="left-align">
+                    <input type="date" name="arrival_date">
+                    <input type="time" name="arrival_time" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="align-center">
+                    <input type="submit" value="Submit">
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+{%endblock%}
