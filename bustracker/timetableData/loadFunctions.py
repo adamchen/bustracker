@@ -1,4 +1,4 @@
-from timetableData.models import *
+from models import *
 import datetime
 def new_bus_stop(name, bearing, lat, lon):
 	bus_stop = BusStop.objects.create(name=name,bearing=bearing)

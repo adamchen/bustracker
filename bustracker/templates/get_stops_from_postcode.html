@@ -4,5 +4,17 @@
 
 {% endblock %}
 {% block content %}
-   Nearest stops stuff.
+   <form action="" method="post">
+       {% csrf_token %}
+       {{ nearest_form.as_p }}
+       <input type="button" value="Submit">
+   </form>
+    {% if stops %}
+        <table>
+        <tr><td>Name</td><td>Location</td></tr>
+        {% for stop in stops %}
+            <tr><td>{{stop.name}}</td><td>{{stop.location}}</td></tr>
+        {% endfor %}
+        </table>
+    {% endif %}
 {% endblock %}

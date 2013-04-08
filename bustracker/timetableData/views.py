@@ -3,8 +3,7 @@ from timetableData.models import *
 import timetableData.query
 from django.shortcuts import render
 from django.contrib.localflavor.gb.forms import GBPostcodeField
-import requests
-import json
+
 
 import datetime
 # Create your views here.
@@ -16,7 +15,11 @@ def one_journey(request):
 			destination = stops_form.cleaned_data['destination']
 			date = stops_form.cleaned_data['date']
 			time = stops_form.cleaned_data['time']
-			return render(request,"bus_stop_to.html", {"bus_stop_form" : stops_form, "stops" : timetableData.query.get_from([source], destination, time, date.weekday())})
+			stops = timetableData.query.get_from([source], destination, time, date.weekday())
+			important_stops = [source]
+			important_stops.append(destination)
+			stops = timetableData.query.reduce_routes(important_stops, stops)
+			return render(request,"bus_stop_to.html", {"bus_stop_form" : stops_form, "stops" : stops})
 	stops_form = PickStops()
 	return render(request,"bus_stop_to.html", {"bus_stop_form" : stops_form})
 
@@ -25,19 +28,11 @@ def get_nearest(request):
 		nearest_form = GetNearestStops(request.POST)
 		if nearest_form.is_valid():
 			postcode = nearest_form.cleaned_data['postcode']
-			lat, lng = get_lat_long(postcode)
-			nearest_stops = get_nearest_stops(lat, lng)
-		stops = []
-	return render(request, "get_stops_from_postcode.html", {"stops" : stops})
-
-def get_nearest_stops(lat, lng, n_to_get=3):
-	pass
-
-def get_lat_long(postcode):
-	r = requests.get("http://uk-postcodes.com/postcode/{}.json".format(postcode.replace(" ","")))
-	data = json.loads(r.text)
-	print data
-	return data[u"geo"][u"lat"], data[u"geo"][u"lng"]
+			lat, lng = timetableData.query.get_lat_long(postcode)
+			nearest_stops = timetableData.query.get_nearest_stops(lat, lng)
+			return render(request, "get_stops_from_postcode.html", {"stops" : nearest_stops, "nearest_form" : nearest_form})
+	nearest_form = GetNearestStops()
+	return render(request, "get_stops_from_postcode.html", {"nearest_form" : nearest_form})
 
 class BusStopModelFormChoice(forms.ModelChoiceField):
 	def label_from_instance(self,obj):

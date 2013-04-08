@@ -43,7 +43,7 @@ class RouteStop(models.Model):
 	next_stop = models.OneToOneField('RouteStop', related_name="previous_stop", null=True)
 	
 	def __unicode__(self):
-		return u"at stop {} at time {}.\n{}".format(self.stop, self.time, "NEXT STOP: "+str(self.next_stop) if self.next_stop is not None else "END OF LINE")
+		return u"Route Stop at stop {} at time {}.\n".format(self.stop, self.time)
 
 	@property
 	def route_journey(self):
