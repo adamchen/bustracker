@@ -36,6 +36,7 @@ def get_nearest(request):
 	return render(request, "get_stops_from_postcode.html", {"nearest_form" : nearest_form})
 
 def five_days(request):
+	time_fields = ["mon_morn", "mon_eve", "tue_morn", "tue_eve", "wed_morn", "wed_eve", "thu_morn", "thu_eve", "fri_morn", "fri_eve"]
 	if request.method == 'POST':
 		postcode_form = GetNearestStops(request.POST)
 		five_day_form = FiveDayForm(request.POST)
@@ -59,26 +60,26 @@ def five_days(request):
 			important_stops = source_stops + [destination]
 			for i in range(0,10):
 				time_period_times[i] = time_period_times[i]._replace(routes=timetableData.query.reduce_routes(important_stops,timetableData.query.get_from(source_stops,destination,time_period_times[i].time,0)))
-			return render(request, "five_day.html", {"postcode_form" : postcode_form, "five_day_form" : five_day_form, "route_data" : time_period_times})
+			return render(request, "five_day.html", {"postcode_form" : postcode_form, "five_day_form" : five_day_form, "route_data" : time_period_times, "time_fields" : time_fields})
 	postcode_form = GetNearestStops()
 	five_day_form = FiveDayForm()
-	return render(request, "five_day.html", {"postcode_form" : postcode_form, "five_day_form" : five_day_form})
+	return render(request, "five_day.html", {"postcode_form" : postcode_form, "five_day_form" : five_day_form, "time_fields" : time_fields})
 
 class FiveDayForm(forms.Form):
-	mon_morn = forms.TimeField(initial=datetime.time(9,0,0), label="To")
-	mon_eve = forms.TimeField(initial=datetime.time(17,0,0), label="Back")
+	mon_morn = forms.TimeField(initial=datetime.time(9,0,0),widget=forms.TimeInput(format='%H:%M'), label="To")
+	mon_eve = forms.TimeField(initial=datetime.time(17,0,0),widget=forms.TimeInput(format='%H:%M'), label="Back")
 
-	tue_morn = forms.TimeField(initial=datetime.time(9,0,0), label="To")
-	tue_eve = forms.TimeField(initial=datetime.time(17,0,0), label="Back")
+	tue_morn = forms.TimeField(initial=datetime.time(9,0,0),widget=forms.TimeInput(format='%H:%M'), label="To")
+	tue_eve = forms.TimeField(initial=datetime.time(17,0,0),widget=forms.TimeInput(format='%H:%M'), label="Back")
 
-	wed_morn = forms.TimeField(initial=datetime.time(9,0,0), label="To")
-	wed_eve = forms.TimeField(initial=datetime.time(17,0,0), label="Back")
+	wed_morn = forms.TimeField(initial=datetime.time(9,0),widget=forms.TimeInput(format='%H:%M'), label="To")
+	wed_eve = forms.TimeField(initial=datetime.time(17,0,0),widget=forms.TimeInput(format='%H:%M'), label="Back")
 
-	thu_morn = forms.TimeField(initial=datetime.time(9,0,0), label="To")
-	thu_eve = forms.TimeField(initial=datetime.time(17,0,0), label="Back")
+	thu_morn = forms.TimeField(initial=datetime.time(9,0,0),widget=forms.TimeInput(format='%H:%M'), label="To")
+	thu_eve = forms.TimeField(initial=datetime.time(17,0,0),widget=forms.TimeInput(format='%H:%M'), label="Back")
 
-	fri_morn = forms.TimeField(initial=datetime.time(9,0,0), label="To")
-	fri_eve = forms.TimeField(initial=datetime.time(17,0,0), label="Back")
+	fri_morn = forms.TimeField(initial=datetime.time(9,0,0),widget=forms.TimeInput(format='%H:%M'), label="To")
+	fri_eve = forms.TimeField(initial=datetime.time(17,0,0),widget=forms.TimeInput(format='%H:%M'), label="Back")
 
 
 class BusStopModelFormChoice(forms.ModelChoiceField):
@@ -95,4 +96,4 @@ class PickStops(forms.Form):
 	time = forms.TimeField(initial=datetime.time(7,0,0), label="Arrival by: ")
 
 class GetNearestStops(forms.Form):
-	postcode = GBPostcodeField(label="Postcode: ")
+	postcode = GBPostcodeField(label="Postcode")

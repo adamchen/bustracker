@@ -21,18 +21,24 @@
 {% endblock %}
 
 {% block extrafoot %}
+<!-- Five_day.html JS -->
 <script type="text/javascript">
-        $(document).ready(function(){
-            {% for period in route_data %}
-                $("#{{period.slug}}").click(function(){
-                    $("#{{period.slug}}_content").slideToggle();
-                    if ($("#{{period.slug}}_image").attr("src") == "{{STATIC_URL}}images/minus.png")
-                    {
-                        $("#{{period.slug}}_image").attr("src","{{STATIC_URL}}images/plus.png");
-                    } else {
-                        $("#{{period.slug}}_image").attr("src","{{STATIC_URL}}images/minus.png");
-                    }
-                });
+    $(document).ready(function(){
+        {% for period in route_data %}
+            $("#{{period.slug}}").click(function(){
+                $("#{{period.slug}}_content").slideToggle();
+                if ($("#{{period.slug}}_image").attr("src") == "{{STATIC_URL}}images/minus.png")
+                {
+                    $("#{{period.slug}}_image").attr("src","{{STATIC_URL}}images/plus.png");
+                } else {
+                    $("#{{period.slug}}_image").attr("src","{{STATIC_URL}}images/minus.png");
+                }
+            });
+            {% endfor %}
+            {% for time in time_fields %}
+                $("#id_{{time}}").timepicker({
+                                                        defaultTime: '12:34'
+                                                    });
             {% endfor %}
         });
 </script>
