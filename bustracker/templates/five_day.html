@@ -5,10 +5,12 @@
 {% endblock %}
 {% block content %}
     {% for period in route_data %}
-        <h2>{{ period.title }}</h2>
+        <h2 id="{{period.slug}}" style="cursor:pointer;"><img id="{{period.slug}}_image" src="{{STATIC_URL}}images/plus.png"> {{ period.title }}</h2>
+        <div id="{{period.slug}}_content" style="display:none;">
         {% for route in period.routes %}
             {% include "route_journey_table.html" with journey=route %}
         {% endfor %}
+        </div>
     {% endfor %}
     <form action="" method="post">
         {% csrf_token %}
@@ -16,4 +18,22 @@
         {{five_day_form.as_p}}
         <input type="submit" value="Submit">
     </form>
+{% endblock %}
+
+{% block extrafoot %}
+<script type="text/javascript">
+        $(document).ready(function(){
+            {% for period in route_data %}
+                $("#{{period.slug}}").click(function(){
+                    $("#{{period.slug}}_content").slideToggle();
+                    if ($("#{{period.slug}}_image").attr("src") == "{{STATIC_URL}}images/minus.png")
+                    {
+                        $("#{{period.slug}}_image").attr("src","{{STATIC_URL}}images/plus.png");
+                    } else {
+                        $("#{{period.slug}}_image").attr("src","{{STATIC_URL}}images/minus.png");
+                    }
+                });
+            {% endfor %}
+        });
+</script>
 {% endblock %}

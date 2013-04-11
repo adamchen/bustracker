@@ -125,8 +125,8 @@ ol li {
 }
 
 #main, #logo, #site_content, footer { 
-  margin-left: auto; 
-  margin-right: auto;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 header { 
@@ -188,7 +188,7 @@ nav {
 }
 
 #site_content { 
-  width: 1000px;
+  width: 100%;
   overflow: hidden;
   margin: 0px auto 0 auto;
   padding: 15px 0 40px 0;
@@ -196,7 +196,7 @@ nav {
 
 #sidebar_container { 
   float: right;
-  width: 45%;
+  width: 25%;
   height:225px;
 }
 
@@ -265,7 +265,7 @@ nav {
 
 .content { 
   text-align: left;
-  width: 45%;
+  width: 75%;
   margin: 0 0 15px 0;
   float: left;
   font-size: 120%;
@@ -414,7 +414,7 @@ table tr th, table tr td {
 /* scroll to top */
 #scroll { 
   position: relative; 
-  width: 1000px;
+  width: 100%;
   margin: 0 auto;
   bottom: 14px; 
   right: 0;

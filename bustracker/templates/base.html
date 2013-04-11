@@ -8,6 +8,8 @@
   <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/style.css" />
   <!-- modernizr enables HTML5 elements and feature detects -->
   <script type="text/javascript" src="{{STATIC_URL}}js/modernizr-1.5.min.js"></script>
+  <script type="text/javascript" src="{{STATIC_URL}}js/jquery.js"></script>
+
 </head>
 
 <body>
@@ -45,5 +47,8 @@
       <p>Double Decker Solutions <br /> HTML and CSS adapted from <a href="http://www.css3templates.co.uk">css3templates.co.uk</a></p>
     </footer>
   </div>
+  <!-- JS -->
+  {% block extrafoot %}
+  {% endblock %}
 </body>
 </html>

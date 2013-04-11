@@ -40,18 +40,18 @@ def five_days(request):
 		postcode_form = GetNearestStops(request.POST)
 		five_day_form = FiveDayForm(request.POST)
 		if five_day_form.is_valid() and postcode_form.is_valid():
-			TimePeriod = namedtuple("TimePeriod", ["time", "title", "routes"])
+			TimePeriod = namedtuple("TimePeriod", ["time", "title", "routes", "slug"])
 			time_period_times = [
-								TimePeriod(time=five_day_form.cleaned_data["mon_morn"], title="Monday To",routes=None),
-								TimePeriod(time=five_day_form.cleaned_data["mon_eve"],  title="Monday Back",routes=None),
-								TimePeriod(time=five_day_form.cleaned_data["tue_morn"], title="Tuesday To",routes=None),
-								TimePeriod(time=five_day_form.cleaned_data["tue_eve"],  title="Tuesday Back",routes=None),
-								TimePeriod(time=five_day_form.cleaned_data["wed_morn"], title= "Wednesday To",routes=None),
-								TimePeriod(time=five_day_form.cleaned_data["wed_eve"],  title="Wednesday Back",routes=None),
-								TimePeriod(time=five_day_form.cleaned_data["thu_morn"], title="Thursday To",routes=None),
-								TimePeriod(time=five_day_form.cleaned_data["thu_eve"],  title="Thursday Back",routes=None),
-								TimePeriod(time=five_day_form.cleaned_data["fri_morn"], title="Friday To",routes=None),
-								TimePeriod(time=five_day_form.cleaned_data["fri_eve"],  title="Friday Back",routes=None),
+								TimePeriod(time=five_day_form.cleaned_data["mon_morn"], title="Monday To",slug="mon_morn",routes=None),
+								TimePeriod(time=five_day_form.cleaned_data["mon_eve"],  title="Monday Back",slug="mon_eve",routes=None),
+								TimePeriod(time=five_day_form.cleaned_data["tue_morn"], title="Tuesday To",slug="tue_morn",routes=None),
+								TimePeriod(time=five_day_form.cleaned_data["tue_eve"],  title="Tuesday Back",slug="tue_eve",routes=None),
+								TimePeriod(time=five_day_form.cleaned_data["wed_morn"], title= "Wednesday To",slug="wed_morn",routes=None),
+								TimePeriod(time=five_day_form.cleaned_data["wed_eve"],  title="Wednesday Back",slug="wed_eve",routes=None),
+								TimePeriod(time=five_day_form.cleaned_data["thu_morn"], title="Thursday To",slug="thu_morn",routes=None),
+								TimePeriod(time=five_day_form.cleaned_data["thu_eve"],  title="Thursday Back",slug="thu_eve",routes=None),
+								TimePeriod(time=five_day_form.cleaned_data["fri_morn"], title="Friday To",slug="fri_morn",routes=None),
+								TimePeriod(time=five_day_form.cleaned_data["fri_eve"],  title="Friday Back",slug="fri_eve",routes=None),
 								]
 			lat, lng = timetableData.query.get_lat_long(postcode_form.cleaned_data["postcode"])
 			source_stops = timetableData.query.get_nearest_stops(lat, lng)
