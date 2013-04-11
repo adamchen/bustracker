@@ -1,7 +1,8 @@
 <!-- journey is passed -->
         <table width=30% style="display: inline-table; margin-right: 3%;">
-            <tr><td>Stop</td><td>Time</td></tr>
-            {% for route_stop in journey %}
+            <tr><td><h3 style="margin:0px;">Service: {{journey.route_name}}</h3></td><td>&nbsp;</td></tr>
+            <tr><td><h3>Stop</h3></td><td><h3>Time</h3></td></tr>
+            {% for route_stop in journey.route_stops %}
                 <tr><td>{% if forloop.last %}<b>{% endif %}{{ route_stop.stop.name }}{% if forloop.last %}</b>{% endif %}</td><td>{% if forloop.last %}<b>{% endif %}{{ route_stop.time|time:"H:i" }}{% if forloop.last %}</b>{% endif %}</td></tr>
             {% endfor %}
         </table>

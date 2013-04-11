@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Five day timetable{% endblock title %}
+{% block sidebar %}
+
+{% endblock %}
+{% block content %}
+    {% for period in route_data %}
+        <h2>{{ period.title }}</h2>
+        {% for route in period.routes %}
+            {% include "route_journey_table.html" with journey=route %}
+        {% endfor %}
+    {% endfor %}
+    <form action="" method="post">
+        {% csrf_token %}
+        {{postcode_form.as_p}}
+        {{five_day_form.as_p}}
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}

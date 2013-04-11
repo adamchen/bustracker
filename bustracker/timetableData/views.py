@@ -3,6 +3,7 @@ from timetableData.models import *
 import timetableData.query
 from django.shortcuts import render
 from django.contrib.localflavor.gb.forms import GBPostcodeField
+from collections import namedtuple
 
 
 import datetime
@@ -33,6 +34,52 @@ def get_nearest(request):
 			return render(request, "get_stops_from_postcode.html", {"stops" : nearest_stops, "nearest_form" : nearest_form})
 	nearest_form = GetNearestStops()
 	return render(request, "get_stops_from_postcode.html", {"nearest_form" : nearest_form})
+
+def five_days(request):
+	if request.method == 'POST':
+		postcode_form = GetNearestStops(request.POST)
+		five_day_form = FiveDayForm(request.POST)
+		if five_day_form.is_valid() and postcode_form.is_valid():
+			TimePeriod = namedtuple("TimePeriod", ["time", "title", "routes"])
+			time_period_times = [
+								TimePeriod(time=five_day_form.cleaned_data["mon_morn"], title="Monday To",routes=None),
+								TimePeriod(time=five_day_form.cleaned_data["mon_eve"],  title="Monday Back",routes=None),
+								TimePeriod(time=five_day_form.cleaned_data["tue_morn"], title="Tuesday To",routes=None),
+								TimePeriod(time=five_day_form.cleaned_data["tue_eve"],  title="Tuesday Back",routes=None),
+								TimePeriod(time=five_day_form.cleaned_data["wed_morn"], title= "Wednesday To",routes=None),
+								TimePeriod(time=five_day_form.cleaned_data["wed_eve"],  title="Wednesday Back",routes=None),
+								TimePeriod(time=five_day_form.cleaned_data["thu_morn"], title="Thursday To",routes=None),
+								TimePeriod(time=five_day_form.cleaned_data["thu_eve"],  title="Thursday Back",routes=None),
+								TimePeriod(time=five_day_form.cleaned_data["fri_morn"], title="Friday To",routes=None),
+								TimePeriod(time=five_day_form.cleaned_data["fri_eve"],  title="Friday Back",routes=None),
+								]
+			lat, lng = timetableData.query.get_lat_long(postcode_form.cleaned_data["postcode"])
+			source_stops = timetableData.query.get_nearest_stops(lat, lng)
+			destination = BusStop.objects.get(pk=19) #Hardcoded university stop
+			important_stops = source_stops + [destination]
+			for i in range(0,10):
+				time_period_times[i] = time_period_times[i]._replace(routes=timetableData.query.reduce_routes(important_stops,timetableData.query.get_from(source_stops,destination,time_period_times[i].time,0)))
+			return render(request, "five_day.html", {"postcode_form" : postcode_form, "five_day_form" : five_day_form, "route_data" : time_period_times})
+	postcode_form = GetNearestStops()
+	five_day_form = FiveDayForm()
+	return render(request, "five_day.html", {"postcode_form" : postcode_form, "five_day_form" : five_day_form})
+
+class FiveDayForm(forms.Form):
+	mon_morn = forms.TimeField(initial=datetime.time(9,0,0), label="To")
+	mon_eve = forms.TimeField(initial=datetime.time(17,0,0), label="Back")
+
+	tue_morn = forms.TimeField(initial=datetime.time(9,0,0), label="To")
+	tue_eve = forms.TimeField(initial=datetime.time(17,0,0), label="Back")
+
+	wed_morn = forms.TimeField(initial=datetime.time(9,0,0), label="To")
+	wed_eve = forms.TimeField(initial=datetime.time(17,0,0), label="Back")
+
+	thu_morn = forms.TimeField(initial=datetime.time(9,0,0), label="To")
+	thu_eve = forms.TimeField(initial=datetime.time(17,0,0), label="Back")
+
+	fri_morn = forms.TimeField(initial=datetime.time(9,0,0), label="To")
+	fri_eve = forms.TimeField(initial=datetime.time(17,0,0), label="Back")
+
 
 class BusStopModelFormChoice(forms.ModelChoiceField):
 	def label_from_instance(self,obj):
