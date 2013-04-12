@@ -57,7 +57,6 @@ def isBefore(stops, stopB, journey):
 	return False
 
 def get_nearest_stops(lat, lng, n_to_get=9):
-	import operator
 	stops = []
 	for stop in BusStop.objects.all():
 		#Length of a latitude degree and length of a longitude degree assumed to be equal.
@@ -72,5 +71,4 @@ def get_nearest_stops(lat, lng, n_to_get=9):
 def get_lat_long(postcode):
 	r = requests.get("http://uk-postcodes.com/postcode/{}.json".format(postcode.replace(" ","")))
 	data = json.loads(r.text)
-	print data
 	return float(data[u"geo"][u"lat"]), float(data[u"geo"][u"lng"])
