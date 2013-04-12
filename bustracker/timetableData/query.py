@@ -4,25 +4,24 @@ import requests
 import json
 import datetime
 
-def get_from(origins, destination, arrival_time, day, number_of_journies=3):
-	log = open("time_log","a")
-	start_time = datetime.datetime.now()
-	journies = RouteJourney.objects.filter(stops__stop__in=origins).filter(stops__stop=destination).filter(weekdays=(day >= 0 and day <= 4), saturdays = (day == 5), sunday = (day == 6))
-	route_stops = RouteStop.objects.filter(stop=destination,journey__in=journies,time__lt=arrival_time).order_by("-time")
+def get_from(origins, destinations, arrival_time, day, number_of_journies=3, arrival=True):
+	if not isinstance(destinations, list):
+		destinations = [destinations]
+	if not isinstance(origins, list):
+		origins = [origins]
+	journies = RouteJourney.objects.filter(stops__stop__in=origins).filter(stops__stop__in=destinations).filter(weekdays=(day >= 0 and day <= 4), saturdays = (day == 5), sunday = (day == 6))
+	if arrival:
+		route_stops = RouteStop.objects.filter(stop__in=destinations,journey__in=journies,time__lt=arrival_time).order_by("-time")
+	else:
+		route_stops = RouteStop.objects.filter(stop__in=origins,journey__in=journies,time__lt=arrival_time).order_by("-time")
 	i = 0
 	routes_to_use = []
 	while (i < route_stops.count()):
-		if (isBefore(origins,destination,route_stops[i].journey)):
+		if (isBefore(origins,destinations,route_stops[i].journey)):
 			routes_to_use.append(route_stops[i].journey)
 			if (len(routes_to_use) >= number_of_journies):
 				break
 		i += 1
-	end_time = datetime.datetime.now()
-	print end_time
-	difference = end_time-start_time
-	print difference
-	log.write(str(difference)+"\n")
-	log.close()
 	return routes_to_use
 
 def reduce_routes(important_stops, journies):
@@ -47,7 +46,7 @@ def isBefore(stops, stopB, journey):
 				a = True
 			else:
 				return False
-		if stop.stop == stopB:
+		if any((stop.stop == stopBs) for stopBs in stopB):
 			if not a:
 				return False
 			else:

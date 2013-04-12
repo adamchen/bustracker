@@ -59,7 +59,10 @@ def five_days(request):
 			destination = BusStop.objects.get(pk=19) #Hardcoded university stop
 			important_stops = source_stops + [destination]
 			for i in range(0,10):
-				time_period_times[i] = time_period_times[i]._replace(routes=timetableData.query.reduce_routes(important_stops,timetableData.query.get_from(source_stops,destination,time_period_times[i].time,0)))
+				if i % 2 == 0:
+					time_period_times[i] = time_period_times[i]._replace(routes=timetableData.query.reduce_routes(important_stops,timetableData.query.get_from(source_stops,destination,time_period_times[i].time,0)))
+				else:
+					time_period_times[i] = time_period_times[i]._replace(routes=timetableData.query.reduce_routes(important_stops,timetableData.query.get_from(destination,source_stops,time_period_times[i].time,0,arrival=False)))
 			return render(request, "five_day.html", {"postcode_form" : postcode_form, "five_day_form" : five_day_form, "route_data" : time_period_times, "time_fields" : time_fields})
 	postcode_form = GetNearestStops()
 	five_day_form = FiveDayForm()
@@ -67,19 +70,19 @@ def five_days(request):
 
 class FiveDayForm(forms.Form):
 	mon_morn = forms.TimeField(initial=datetime.time(9,0,0),widget=forms.TimeInput(format='%H:%M'), label="To")
-	mon_eve = forms.TimeField(initial=datetime.time(17,0,0),widget=forms.TimeInput(format='%H:%M'), label="Back")
+	mon_eve = forms.TimeField(initial=datetime.time(17,15,0),widget=forms.TimeInput(format='%H:%M'), label="Back")
 
 	tue_morn = forms.TimeField(initial=datetime.time(9,0,0),widget=forms.TimeInput(format='%H:%M'), label="To")
-	tue_eve = forms.TimeField(initial=datetime.time(17,0,0),widget=forms.TimeInput(format='%H:%M'), label="Back")
+	tue_eve = forms.TimeField(initial=datetime.time(17,15,0),widget=forms.TimeInput(format='%H:%M'), label="Back")
 
 	wed_morn = forms.TimeField(initial=datetime.time(9,0),widget=forms.TimeInput(format='%H:%M'), label="To")
-	wed_eve = forms.TimeField(initial=datetime.time(17,0,0),widget=forms.TimeInput(format='%H:%M'), label="Back")
+	wed_eve = forms.TimeField(initial=datetime.time(17,15,0),widget=forms.TimeInput(format='%H:%M'), label="Back")
 
 	thu_morn = forms.TimeField(initial=datetime.time(9,0,0),widget=forms.TimeInput(format='%H:%M'), label="To")
-	thu_eve = forms.TimeField(initial=datetime.time(17,0,0),widget=forms.TimeInput(format='%H:%M'), label="Back")
+	thu_eve = forms.TimeField(initial=datetime.time(17,15,0),widget=forms.TimeInput(format='%H:%M'), label="Back")
 
 	fri_morn = forms.TimeField(initial=datetime.time(9,0,0),widget=forms.TimeInput(format='%H:%M'), label="To")
-	fri_eve = forms.TimeField(initial=datetime.time(17,0,0),widget=forms.TimeInput(format='%H:%M'), label="Back")
+	fri_eve = forms.TimeField(initial=datetime.time(17,15,0),widget=forms.TimeInput(format='%H:%M'), label="Back")
 
 
 class BusStopModelFormChoice(forms.ModelChoiceField):
