@@ -11,13 +11,15 @@ def get_from(origins, destinations, arrival_time, day, number_of_journies=3, arr
 		origins = [origins]
 	journies = RouteJourney.objects.filter(stops__stop__in=origins).filter(stops__stop__in=destinations).filter(weekdays=(day >= 0 and day <= 4), saturdays = (day == 5), sunday = (day == 6))
 	if arrival:
-		route_stops = RouteStop.objects.filter(stop__in=destinations,journey__in=journies,time__lt=arrival_time).order_by("-time")
+		#That is, if the time given is the time to arrive, then search for that.
+		route_stops = RouteStop.objects.filter(stop__in=destinations,journey__in=journies,time__lt=arrival_time).order_by("-time").distinct()
 	else:
-		route_stops = RouteStop.objects.filter(stop__in=origins,journey__in=journies,time__lt=arrival_time).order_by("-time")
+		#Otherwise it's when they're leaving.
+		route_stops = RouteStop.objects.filter(stop__in=origins,journey__in=journies,time__gt=arrival_time).order_by("time").distinct()
 	i = 0
 	routes_to_use = []
 	while (i < route_stops.count()):
-		if (isBefore(origins,destinations,route_stops[i].journey)):
+		if (isBefore(origins,destinations,route_stops[i].journey)) and not any((route_stops[i].journey == journey) for journey in routes_to_use):
 			routes_to_use.append(route_stops[i].journey)
 			if (len(routes_to_use) >= number_of_journies):
 				break
