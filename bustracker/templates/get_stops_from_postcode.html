@@ -1,19 +1,32 @@
 {% extends "base.html" %}
 {% block title %}Nearest stops{% endblock title %}
 {% block sidebar %}
-
+{% if stops %}
+<img src="{{STATIC_URL}}images/placeholder_google_image.png" style="margin: 5px;"/>
+Placeholder google maps image
+{% else %}
+        <h3>Bus Stop finder</h3>
+        Enter your postcode to find the nearest bus stops to you!
+{% endif %}
 {% endblock %}
 {% block content %}
+   <h2>Bus Stop Finder</h2>
+   {% if stops %}
+   <h3>And another?</h3>
+   {% else %}
+   <h3>Find bus stops</h3>
+   {% endif %}
    <form action="" method="post">
        {% csrf_token %}
        {{ nearest_form.as_p }}
        <input type="Submit">
    </form>
     {% if stops %}
+        <h3>Bus Stops near you</h3>
         <table>
-        <tr><td>Name</td><td>Location</td></tr>
+        <tr><td><b>Name</b></td><td><b>Location</b></td><td><b>Identifier</b></td></tr>
         {% for stop in stops %}
-            <tr><td>{{stop.name}}</td><td>{{stop.location}}</td></tr>
+            <tr><td>{{stop.name}}</td><td>{{stop.location}}</td><td>-</td></tr>
         {% endfor %}
         </table>
     {% endif %}
