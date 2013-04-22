@@ -21,6 +21,7 @@ def one_journey(request):
 			important_stops.append(destination)
 			stops = timetableData.query.reduce_routes(important_stops, stops)
 			return render(request,"bus_stop_to.html", {"bus_stop_form" : stops_form, "stops" : stops})
+		return render(request,"bus_stop_to.html", {"bus_stop_form" : stops_form})
 	stops_form = PickStops()
 	return render(request,"bus_stop_to.html", {"bus_stop_form" : stops_form})
 
@@ -32,6 +33,7 @@ def get_nearest(request):
 			lat, lng = timetableData.query.get_lat_long(postcode)
 			nearest_stops = timetableData.query.get_nearest_stops(lat, lng)
 			return render(request, "get_stops_from_postcode.html", {"stops" : nearest_stops, "nearest_form" : nearest_form})
+		return render(request, "get_stops_from_postcode.html", {"nearest_form" : nearest_form})
 	nearest_form = GetNearestStops()
 	return render(request, "get_stops_from_postcode.html", {"nearest_form" : nearest_form})
 
@@ -64,6 +66,7 @@ def five_days(request):
 				else:
 					time_period_times[i] = time_period_times[i]._replace(routes=timetableData.query.reduce_routes(important_stops,timetableData.query.get_from(destination,source_stops,time_period_times[i].time,0,arrival=False)))
 			return render(request, "five_day.html", {"postcode_form" : postcode_form, "five_day_form" : five_day_form, "route_data" : time_period_times, "time_fields" : time_fields})
+		return render(request, "five_day.html", {"postcode_form" : postcode_form, "five_day_form" : five_day_form, "time_fields" : time_fields})
 	postcode_form = GetNearestStops()
 	five_day_form = FiveDayForm()
 	return render(request, "five_day.html", {"postcode_form" : postcode_form, "five_day_form" : five_day_form, "time_fields" : time_fields})
@@ -92,11 +95,11 @@ class BusStopModelFormChoice(forms.ModelChoiceField):
 		return obj.name
 
 class PickStops(forms.Form):
-	source = BusStopModelFormChoice(queryset=BusStop.objects.all(), label="From: ")
-	destination = BusStopModelFormChoice(queryset=BusStop.objects.all(), label="To: ")
+	source = BusStopModelFormChoice(queryset=BusStop.objects.all(), label="From")
+	destination = BusStopModelFormChoice(queryset=BusStop.objects.all(), label="To")
 
-	date = forms.DateField(initial=datetime.date.today(), label="Date: ")
-	time = forms.TimeField(initial=datetime.time(7,0,0), label="Arrival by: ")
+	date = forms.DateField(initial=datetime.date.today(), label="Date")
+	time = forms.TimeField(initial=datetime.time(9,0,0), label="Arrival by")
 
 class GetNearestStops(forms.Form):
 	postcode = GBPostcodeField(label="Postcode")

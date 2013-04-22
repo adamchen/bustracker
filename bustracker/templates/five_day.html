@@ -22,18 +22,40 @@
         {% csrf_token %}
         {{postcode_form.postcode.errors}}
         Postcode: {{postcode_form.postcode}}
-        {% for field in five_day_form %}
-            {{field.errors}}
-        {% endfor %}
         <h3>Monday</h3>
+        {% if five_day_form.mon_morn.errors or five_day_form.mon_eve.errors %}
+            <ul class="errorlist">
+                <li>These fields are required and must be in the range 00:00 to 23:59.</li>
+            </ul>
+        {% endif %}
         From {{five_day_form.mon_morn}} to {{five_day_form.mon_eve}}
         <h3>Tuesday</h3>
+        {% if five_day_form.tue_morn.errors or five_day_form.tue_eve.errors %}
+        <ul class="errorlist">
+            <li>These fields are required and must be in the range 00:00 to 23:59.</li>
+        </ul>
+        {% endif %}
         From {{five_day_form.tue_morn}} to {{five_day_form.tue_eve}}
         <h3>Wednesday</h3>
+        {% if five_day_form.wed_morn.errors or five_day_form.wed_eve.errors %}
+        <ul class="errorlist">
+            <li>These fields are required and must be in the range 00:00 to 23:59.</li>
+        </ul>
+        {% endif %}
         From {{five_day_form.wed_morn}} to {{five_day_form.wed_eve}}
         <h3>Thursday</h3>
+        {% if five_day_form.thu_morn.errors or five_day_form.thu_eve.errors %}
+        <ul class="errorlist">
+            <li>These fields are required and must be in the range 00:00 to 23:59.</li>
+        </ul>
+        {% endif %}
         From {{five_day_form.thu_morn}} to {{five_day_form.thu_eve}}
         <h3>Friday</h3>
+        {% if five_day_form.fri_morn.errors or five_day_form.fri_eve.errors %}
+        <ul class="errorlist">
+            <li>These fields are required and must be in the range 00:00 to 23:59.</li>
+        </ul>
+        {% endif %}
         From {{five_day_form.fri_morn}} to {{five_day_form.fri_eve}}
 
         <br/>

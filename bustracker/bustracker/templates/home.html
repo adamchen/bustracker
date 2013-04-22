@@ -1,17 +1,20 @@
 {% extends "base.html" %}
-{% block title %} Home {% endblock %}
+{% block title %}About {%endblock %}
 {% block sidebar %}
-OH MAN THIS IS TOTALLY THE SIDEBAR
-block sidebar
+<h2 xmlns="http://www.w3.org/1999/html">What is this?</h2>
+<p>Everyone knows how frustrating it can be turning round the corner
+    to see the bus you want driving past. Fear no more! Beat the Bus is here to save you from
+    bus-related anger.</a></p>
 {% endblock %}
 {% block content %}
-    CONTENT
-    block content
-    <h2>Stuff</h2>
-        <ul>
-            <li><a href="/timetableData/five_day">Uni days</a></li>
-            <li><a href="/timetableData/one_journey">One journey query</a></li>
-            <li><a href="/timetableData/get_nearest">Get nearest</a></li>
-        </ul>
-{% endblock %}
+<h2>Beat the Bus!</h2>
+<p><i>Beat the Bus</i> is a service designed to help you access bus timetable information in the area in and around Bath</p>
 
+<h3><a href="timetableData/five_day">University journey planner</a></h3>
+<p>Our flagship idea is a full five-day timetable for students at the University of Bath. We provide a personalised
+    detailed timetable for your entire week!</p>
+
+<h3><a href="timetableData/one_journey">One Journey Planner</a></h3>
+<p>Easily get information for any journey you'd want to take - just give us two stops, a time and a date and we'll
+provide all the information you need.</p>
+{%endblock%}
