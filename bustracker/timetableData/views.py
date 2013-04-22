@@ -20,7 +20,7 @@ def one_journey(request):
 			important_stops = [source]
 			important_stops.append(destination)
 			stops = timetableData.query.reduce_routes(important_stops, stops)
-			return render(request,"bus_stop_to.html", {"bus_stop_form" : stops_form, "stops" : stops})
+			return render(request,"bus_stop_to.html", {"bus_stop_form" : stops_form, "stops" : stops, "no_stops_found" : True if len(stops) == 0 else False})
 		return render(request,"bus_stop_to.html", {"bus_stop_form" : stops_form})
 	stops_form = PickStops()
 	return render(request,"bus_stop_to.html", {"bus_stop_form" : stops_form})
