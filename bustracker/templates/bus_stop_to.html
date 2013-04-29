@@ -8,14 +8,14 @@ Single Journey
 {% endblock %}
 {% block content %}
 {% if no_stops_found %}
-    <h2>Potential journies</h2>
+    <h2>Potential journeys</h2>
         <ul class="errorlist">
             <li>I'm sorry, we can't find a journey to do that.</li>
             <li>Please enter another pair of stops and try again.</li>
         </ul>
 {% endif %}
 {% if stops %}
-<h2>Potential journies</h2>
+<h2>Potential journeys</h2>
 {% include "bus_stop_display.html" with stops=stops %}
 {% endif %}
 <h2>New journey query</h2>
